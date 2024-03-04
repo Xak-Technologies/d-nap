@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xakt.dnap.entity.User;
+import com.xakt.dnap.error.UserNotFoundException;
 import com.xakt.dnap.repository.UserRepository;
 import com.xakt.dnap.service.UserService;
 
@@ -44,14 +45,14 @@ public class UserController {
 	
 	 
 	@GetMapping("/api/fetchSingleUser/{user_id}")
-	public User fetchSingleUser(@PathVariable("user_id") Long userId) {
+	public User fetchSingleUser(@PathVariable("user_id") Long userId) throws UserNotFoundException {
 		LOGGER.info("Inside fetchSingleUser of UserController.");
 		return userService.fetchSingleUser(userId);
 	}
 	
 	
 	@DeleteMapping("/api/deleteUser/{user_id}")
-	public String deleteUser(@PathVariable("user_id") Long id) {
+	public String deleteUser(@PathVariable("user_id") Long id) throws UserNotFoundException {
 		LOGGER.info("Inside deleteUser of UserController.");
 		userService.deleteUser(id);		
 		return "User deleted successfully."; 
@@ -62,6 +63,14 @@ public class UserController {
 	public User editUser(@PathVariable("user_id") Long Id, @RequestBody User user) {
 		LOGGER.info("Inside editUser of UserController.");
 		return userService.editUser(Id, user);
+	}
+	
+	
+	@GetMapping("/api/fetchUserByFirstName/{firstName}")
+	public List<User> fetchUserByFirstName(@PathVariable("firstName") String firstName) {
+		LOGGER.info("Inside fetchUserByFirstName of UserController");
+		return userService.findByFirstName(firstName);
+		
 	}
 
 }

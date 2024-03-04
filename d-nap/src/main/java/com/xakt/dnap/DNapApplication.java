@@ -11,7 +11,7 @@ public class DNapApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DNapApplication.class, args);
 		
-		System.out.println("WELCOME TO XAK-T");
+		System.out.println("WELCOME TO XAK-TECHNOLOGIES");
 	}
 
 }

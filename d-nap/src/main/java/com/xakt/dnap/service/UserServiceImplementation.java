@@ -3,12 +3,13 @@ package com.xakt.dnap.service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.xakt.dnap.entity.User;
+import com.xakt.dnap.error.UserNotFoundException;
 import com.xakt.dnap.repository.UserRepository;
 
 import jakarta.validation.Valid;
@@ -30,12 +31,24 @@ public class UserServiceImplementation implements UserService{
 	}
 
 	@Override
-	public User fetchSingleUser(Long Id) {
-		return userRepository.findById(Id).get();
+	public User fetchSingleUser(Long Id) throws UserNotFoundException {
+		Optional <User> user = userRepository.findById(Id);
+		
+		if(!user.isPresent()) {
+			throw new UserNotFoundException("User not found.");
+		}
+		
+		return user.get();
 	}
 
 	@Override
-	public void deleteUser(Long id) {
+	public void deleteUser(Long id) throws UserNotFoundException {
+		
+		Optional <User> user = userRepository.findById(id);
+		if(!user.isPresent()) {
+			throw new UserNotFoundException("User not found");
+		}
+		
 		userRepository.deleteById(id);
 	
 	}
@@ -69,7 +82,16 @@ public class UserServiceImplementation implements UserService{
 			userDB.setUserPassword(user.getUserPassword());
 		}
 		
+		if(Objects.nonNull(user.getUserCategory()) && !"".equalsIgnoreCase(user.getUserCategory())) {
+			userDB.setUserCategory(user.getUserCategory());
+		}
+		
 		return userRepository.save(userDB);
+	}
+
+	@Override
+	public List<User> findByFirstName(String firstName) {
+		return userRepository.findByFirstName(firstName);
 	}
 
 		
