@@ -1,20 +1,26 @@
 package com.xakt.dnap.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import com.xakt.dnap.entity.Facility;
+import com.xakt.dnap.error.BlankFieldException;
+import com.xakt.dnap.error.NotFoundException;
+import com.xakt.dnap.error.SuccessMessageException;
 
 import jakarta.validation.Valid;
 
 public interface FacilityService {
 
-	public Facility saveFacility(@Valid Facility facility);
+	public void saveFacility(@Valid Facility facility) 
+			throws BlankFieldException, SuccessMessageException;
+	
 
-	public List<Facility> fetchFacilities();
+	public List<Facility> fetchFacilities() throws NotFoundException;
+	
 
-	public void deleteFacility(Long facilityId);
+	public void deleteFacility(Long facilityId) throws NotFoundException, SuccessMessageException;
+	
 
-	public Facility editFacility(Long facilityId, Facility facility);
+	public void editFacility(Long facilityId, Facility facility) 
+			throws NotFoundException, SuccessMessageException;
 
 }

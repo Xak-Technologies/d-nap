@@ -3,21 +3,23 @@ package com.xakt.dnap.service;
 import java.util.List;
 
 import com.xakt.dnap.entity.User;
-import com.xakt.dnap.error.UserNotFoundException;
+import com.xakt.dnap.error.AlreadyExistsException;
+import com.xakt.dnap.error.BlankFieldException;
+import com.xakt.dnap.error.NotFoundException;
+import com.xakt.dnap.error.SuccessMessageException;
 
 import jakarta.validation.Valid;
 
 public interface UserService {
 
-	public User saveUser(@Valid User user);
+	public void saveUser(@Valid User user) throws BlankFieldException, SuccessMessageException, AlreadyExistsException;
 
-	public List<User> fetchUsers();
+	public List<User> fetchUsers() throws NotFoundException;
 
-	public User fetchSingleUser(Long userId) throws UserNotFoundException;
+	public User fetchSingleUser(Long userId) throws NotFoundException;
 
-	public void deleteUser(Long id) throws UserNotFoundException;
+	public void deleteUser(Long id) throws NotFoundException, SuccessMessageException;
 
-	public User editUser(Long Id, User user);
+	public void editUser(Long Id, User user) throws NotFoundException, BlankFieldException, SuccessMessageException ;
 
-	public List<User> findByFirstName(String firstName);
 }

@@ -1,8 +1,9 @@
 package com.xakt.dnap.controller;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xakt.dnap.entity.Facility;
+import com.xakt.dnap.error.BlankFieldException;
+import com.xakt.dnap.error.NotFoundException;
+import com.xakt.dnap.error.SuccessMessageException;
 import com.xakt.dnap.service.FacilityService;
-
-import jakarta.validation.Valid;
 
 @RestController
 public class FacilityController {
@@ -24,27 +26,42 @@ public class FacilityController {
 	FacilityService facilityService;
 	
 	
+	private final Logger LOGGER = LoggerFactory.getLogger(FacilityController.class);
+	
+	
+//	ADDING A NEW FACILITY
 	@PostMapping("/api/saveFacility")
-	public Facility saveFacility(@Valid @RequestBody Facility facility) {
-		return facilityService.saveFacility(facility);		
+	public void saveFacility(@RequestBody Facility facility) 
+			throws BlankFieldException, SuccessMessageException {
+		LOGGER.info("Inside save facility of FacilityControler.");
+		facilityService.saveFacility(facility);		
 	}
 	
-	
-	@GetMapping("/api/fetchFacilities")
-	public List<Facility> fetchFacilities(){
-		return facilityService.fetchFacilities();		
-	}
-	
-	@DeleteMapping("/api/deleteFacility/{facility_id}")
-	public String deleteFacility(@PathVariable("facility_id") Long facilityId){
-		facilityService.deleteFacility(facilityId);
-		return "Facility deleted successfully";		
-	}
-	
-	
-	@PutMapping("/api/editFacility/{facility_id}")
-	public Facility editFacility(@PathVariable("facility_id") Long facilityId, @RequestBody Facility facility){
-		return facilityService.editFacility(facilityId, facility);
-	}
 
+//	FETCHING A LIST OF FACILITIES
+	@GetMapping("/api/fetchFacilities")
+	public List<Facility> fetchFacilities() throws NotFoundException {
+		LOGGER.info("Inside fetchFacilities of FacilityController.");
+		return facilityService.fetchFacilities();		
+	}	
+	
+
+//	DELETEING A FACILITY DEPENDING ON ID
+	@DeleteMapping("/api/deleteFacility/{facility_id}")
+	public void deleteFacility(@PathVariable("facility_id") Long facilityId) 
+			throws NotFoundException, SuccessMessageException{
+		LOGGER.info("Inside deleteFacility of FacilityController.");
+		facilityService.deleteFacility(facilityId);
+	}
+	
+
+//	UPDATING FACILITY DEPENDING ON ID
+	@PutMapping("/api/editFacility/{facility_id}")
+	public void editFacility(@PathVariable("facility_id") Long facilityId,
+			@RequestBody Facility facility) 
+					throws NotFoundException, SuccessMessageException {
+		LOGGER.info("Inside editFacility of FacilityController.");
+		facilityService.editFacility(facilityId, facility);
+	}
+	
 }

@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -13,7 +12,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,29 +22,41 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Facility {
+public class ShopRoom {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long facilityId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long roomId;
 	
-	@Column(name="facility_category", nullable=false)
-	@NotBlank(message="Please add facility category")
-	@Length(max=50, min=3)
-	private String facilityCategory;
+	@Column(name="room_number", nullable=false)
+	private String roomNumber;
 	
-	@Column(name="facility_name")
-	@Length(max=50, min=3)
-	private String facilityName;
+	@Column(name="room_location", nullable=false)
+	private String roomLocation;
+	
+	@Column(name="floor", nullable=false)
+	private String floor;
+	
+	@Column(name="room_length", nullable=false)
+	private String roomLength;
+	
+	@Column(name="room_width", nullable=false)
+	private String roomWidth;
+	
+	@Column(name="room_price", nullable=false)
+	private String roomPrice;
+	
+	@Column(name="rent_parttern", nullable=false)
+	private String rentParttern;
 	
 	@CreatedDate
 	@CreationTimestamp
-	@Column(name="date_created", updatable=false)
+	@Column(name="date_created", nullable=false, updatable=false)
 	private Timestamp dateCreated;
 	
 	@LastModifiedDate
 	@UpdateTimestamp
-	@Column(name="last_updated")
+	@Column(name="last_updated", nullable=false)
 	private Timestamp lastUpdated;
 
 }
