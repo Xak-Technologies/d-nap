@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xakt.dnap.entity.User;
-import com.xakt.dnap.error.UserNotFoundException;
+import com.xakt.dnap.error.AlreadyExistsException;
+import com.xakt.dnap.error.BlankFieldException;
+import com.xakt.dnap.error.NotFoundException;
+import com.xakt.dnap.error.SuccessMessageException;
 import com.xakt.dnap.repository.UserRepository;
 import com.xakt.dnap.service.UserService;
-
-import jakarta.validation.Valid;
 
 
 @RestController
@@ -31,46 +32,38 @@ public class UserController {
 	
 	
 	@PostMapping("/api/saveUser")
-	public User saveUser(@Valid @RequestBody User user) {
+	public void saveUser(@RequestBody User user) throws BlankFieldException, SuccessMessageException, AlreadyExistsException {
 		LOGGER.info("Inside saveUser of UserController.");
-		return userService.saveUser(user);
+		userService.saveUser(user);
 	}
 	
 	
 	@GetMapping("/api/fetchUsers")
-	public List<User> fetchUsers() {
+	public List<User> fetchUsers() throws NotFoundException {
 		LOGGER.info("Inside fetchUsers of UserController.");
 		return userService.fetchUsers();
 	}
 	
 	 
 	@GetMapping("/api/fetchSingleUser/{user_id}")
-	public User fetchSingleUser(@PathVariable("user_id") Long userId) throws UserNotFoundException {
+	public User fetchSingleUser(@PathVariable("user_id") Long userId) throws NotFoundException {
 		LOGGER.info("Inside fetchSingleUser of UserController.");
 		return userService.fetchSingleUser(userId);
 	}
 	
 	
 	@DeleteMapping("/api/deleteUser/{user_id}")
-	public String deleteUser(@PathVariable("user_id") Long id) throws UserNotFoundException {
+	public void deleteUser(@PathVariable("user_id") Long id) throws NotFoundException, SuccessMessageException {
 		LOGGER.info("Inside deleteUser of UserController.");
 		userService.deleteUser(id);		
-		return "User deleted successfully."; 
+		
 	}
 	
 	
 	@PutMapping("/api/editUser/{user_id}")
-	public User editUser(@PathVariable("user_id") Long Id, @RequestBody User user) {
+	public void editUser(@PathVariable("user_id") Long Id, @RequestBody User user) throws NotFoundException, BlankFieldException, SuccessMessageException  {
 		LOGGER.info("Inside editUser of UserController.");
-		return userService.editUser(Id, user);
-	}
-	
-	
-	@GetMapping("/api/fetchUserByFirstName/{firstName}")
-	public List<User> fetchUserByFirstName(@PathVariable("firstName") String firstName) {
-		LOGGER.info("Inside fetchUserByFirstName of UserController");
-		return userService.findByFirstName(firstName);
-		
+		userService.editUser(Id, user);
 	}
 
 }

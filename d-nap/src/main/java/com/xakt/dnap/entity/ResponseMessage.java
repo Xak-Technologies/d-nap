@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorMessage {
+public class ResponseMessage {
 	
 	private HttpStatus status;
 	private String message;
