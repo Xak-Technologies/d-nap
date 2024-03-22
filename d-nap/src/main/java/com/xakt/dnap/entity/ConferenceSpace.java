@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -13,52 +12,39 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@Table(name="user")
-public class User {
-	
+public class ConferenceSpace {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long userId;
+	private Long conferenceSpaceId;
 	
-	@NotBlank(message="Please add user category.")
-	@Length(max=20, min=3)
-	@Column(name="user_role", nullable=false)
-	private String userRole;
+	@Column(nullable=false)
+	private int capacity;
 	
-	@Email
-	@NotBlank(message="Please add email")
-	@Length(max=50, min=10)
-	@Column(name="user_email", unique=true, nullable=false)
-	private String userEmail;	
+	@Column(nullable=false)
+	private Long price;
 	
-	@NotBlank(message="Please add a password")
-	@Length(max=25, min=6)
-	@Column(name="user_password", nullable=false)
-	private String userPassword;	
+	@Column(nullable=false)
+	private Boolean available;
 	
+	@Column(nullable=false)
 	@CreatedDate
 	@CreationTimestamp
-	@Column(name="date_created", updatable=false)
-	private Timestamp createdDate;
+	private Timestamp dateCreated;
 	
-	
+	@Column(nullable=false)
 	@LastModifiedDate
 	@UpdateTimestamp
-	@Column(name="last_updated")
 	private Timestamp lastUpdated;	
 
 }

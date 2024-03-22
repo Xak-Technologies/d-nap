@@ -1,6 +1,7 @@
 package com.xakt.dnap.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,5 +63,28 @@ public class ShopRoomController {
 		shopRoomService.deleteShopRoom(roomId);
 		
 	}
-
+	
+	
+/*
+ * FETCHING SHOP ROOM BY ID
+ */
+	@GetMapping("/api/fetchShopRoomById/{room_id}")
+	public Optional<ShopRoom> fetchShopRoomById(@PathVariable("room_id") Long roomId) 
+			throws NotFoundException{
+		return shopRoomService.fetchShopRoomById(roomId);
+	}
+	
+	
+	
+/*
+ * UPDATING SHOP ROOM
+ */
+	@PutMapping("/api/updateShopRoom/{room_id}")
+	public void updateShopRoom(@PathVariable("room_id") Long roomId, 
+			@RequestBody ShopRoom shopRoom) throws NotFoundException, SuccessMessageException {
+		shopRoomService.updateShopRoom(roomId, shopRoom);
+	}
+	
 }
+
+
