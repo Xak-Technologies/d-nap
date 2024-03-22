@@ -79,11 +79,11 @@ public class Tenant {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="room_id", referencedColumnName="roomId", insertable=false, updatable=false)
-	private MotelRoom motelRoom;
+	private ShopRoom shopRoom;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="room_id", referencedColumnName="roomId", insertable=false, updatable=false)
-	private ShopRoom shopRoom;
+	private OfficeRoom officeRoom;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="room_id", referencedColumnName="apartmentId", insertable=false, updatable=false)

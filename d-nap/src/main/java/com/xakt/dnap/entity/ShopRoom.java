@@ -69,6 +69,5 @@ public class ShopRoom {
 	@JoinColumn(name="arcade_id", referencedColumnName="mallId", nullable=false, insertable=false, updatable=false)
 	private ShoppingMall shoppingMall;
 	
-	
 
 }

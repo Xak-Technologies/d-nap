@@ -1,11 +1,8 @@
 package com.xakt.dnap.entity;
 
 import java.sql.Timestamp;
-import java.util.List;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,61 +14,56 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class HotelRoom {	
-
+public class OfficeRoom {
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long roomId;
 	
-	@Column(nullable=false)
-	@Length(max=10)
+	@Column(name="room_number", nullable=false)
 	private String roomNumber;
 	
-	@Column(nullable=false)
-	@Length(max=15)
+	@Column(name="room_location", nullable=false)
+	private String roomLocation;
+	
+	@Column(name="floor", nullable=false)
 	private String floor;
 	
-	@Column(nullable=false)
-	@Length(max=30)
-	private String roomCategory;	
+	@Column(name="room_length", nullable=false)
+	private String roomLength;
 	
-	@Column(nullable=false)
-	@Length(max=25)
+	@Column(name="room_width", nullable=false)
+	private String roomWidth;
+	
+	@Column(name="room_price", nullable=false)
 	private String roomPrice;
 	
-	@Column(nullable=false)
-	@Length(max=15)
-	private String PaymentPartten;
+	@Column(name="rent_parttern", nullable=false)
+	private String paymentParttern;
 	
-	@Column(nullable=false, updatable=false)
 	@CreatedDate
 	@CreationTimestamp
+	@Column(name="date_created", nullable=false, updatable=false)
 	private Timestamp dateCreated;
 	
-	@Column(nullable=false)
 	@LastModifiedDate
 	@UpdateTimestamp
+	@Column(name="last_updated", nullable=false)
 	private Timestamp lastUpdated;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="hotelId", nullable=false)
-	private Hotel hotel;
-	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="motelId", nullable=false, insertable=false, updatable=false)
-	private Motel motel;
+	@JoinColumn(name="office_building_id", referencedColumnName="officeBuildingId", nullable=false)
+	private OfficeBuilding officeBuilding;
 	
 	
 }

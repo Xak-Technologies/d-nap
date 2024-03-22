@@ -1,54 +1,49 @@
 package com.xakt.dnap.entity;
 
 import java.sql.Timestamp;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class MotelRoom {	
-
+public class OfficeBuilding {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long roomId;
+	private Long officeBuildingId;
 	
 	@Column(nullable=false)
-	@Length(max=30)
-	private String roomCategory;
+	private boolean parking;
 	
 	@Column(nullable=false)
-	@Length(max=10)
-	private String roomNumber;
+	private boolean wifi;
 	
 	@Column(nullable=false)
-	@Length(max=15)
-	private String floor;
+	private boolean cabelInternet;
 	
 	@Column(nullable=false)
-	@Length(max=25)
-	private String roomPrice;
+	private boolean standByGenerator;	
 	
 	@Column(nullable=false)
-	@Length(max=15)
-	private String PaymentPartten;	
+	private boolean elevator;	
 	
 	@Column(nullable=false, updatable=false)
 	@CreatedDate
@@ -58,6 +53,12 @@ public class MotelRoom {
 	@Column(nullable=false)
 	@LastModifiedDate
 	@UpdateTimestamp
-	private Timestamp lastUpdated;	
+	private Timestamp lastUpdated;
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="facility_id", referencedColumnName="facilityId", nullable=false)
+	private Facility facility;
+	
+	
+
 }
