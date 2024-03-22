@@ -9,8 +9,6 @@ import com.xakt.dnap.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository <User, Long>{
 
-	List<User> findByUserTelephone(String userTelephone);
-
 	List<User> findByUserEmail(String userEmail);
 	
 }

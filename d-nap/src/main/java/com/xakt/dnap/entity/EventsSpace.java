@@ -1,21 +1,17 @@
 package com.xakt.dnap.entity;
 
 import java.sql.Timestamp;
-import java.util.List;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,35 +22,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Facility {
+public class EventsSpace {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long facilityId;
 	
-	@Column(name="facility_category", nullable=false)
-	@NotBlank(message="Please add facility category")
-	@Length(max=50, min=3)
-	private String facilityCategory;
+	@Column(nullable=false)
+	private int capacity;
 	
-	@Column(name="facility_name")
-	@Length(max=50, min=3)
-	private String facilityName;
+	@Column(nullable=false)
+	private Long price;
 	
-	@Embedded 
-	private Address facilityLocation;
+	@Column(nullable=false)
+	private Boolean available;
 	
+	@Column(nullable=false)
 	@CreatedDate
 	@CreationTimestamp
-	@Column(name="date_created", updatable=false)
 	private Timestamp dateCreated;
 	
+	@Column(nullable=false)
 	@LastModifiedDate
 	@UpdateTimestamp
-	@Column(name="last_updated")
-	private Timestamp lastUpdated;	
-	
-	
-	@ManyToMany(mappedBy = "facilities")
-    private List<Tenant> tenants;
+	private Timestamp lastUpdated;
+
 }

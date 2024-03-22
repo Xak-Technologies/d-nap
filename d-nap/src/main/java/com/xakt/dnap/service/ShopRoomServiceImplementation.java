@@ -94,9 +94,74 @@ public class ShopRoomServiceImplementation implements ShopRoomService {
 		throw new SuccessMessageException("Room has been deleted sucessfully.");
 		
 	}
-	
 
-	
-	
 
+/*
+ * FETCHING SHOP ROOM BY ID
+ */
+	@Override
+	public Optional<ShopRoom> fetchShopRoomById(Long roomId) throws NotFoundException {
+		Optional<ShopRoom> shopRoomDB = shopRoomRepository.findById(roomId);
+		if(!shopRoomDB.isPresent()) {
+			throw new NotFoundException("Shop room not found.");
+		}
+		return shopRoomDB;
+	}
+
+
+/*
+ * UPDATE SHOP ROOM
+ */
+	@Override
+	public void updateShopRoom(Long roomId, ShopRoom shopRoom) 
+			throws NotFoundException, SuccessMessageException{
+		Optional<ShopRoom> shopRoomDBExists = shopRoomRepository.findById(roomId);
+		if(!shopRoomDBExists.isPresent()) {
+			throw new NotFoundException("Shop room not found.");
+		}
+		
+		ShopRoom shopRoomDB = shopRoomRepository.findById(roomId).get();		
+		
+		if(Objects.nonNull(shopRoom.getRoomNumber()) && 
+				!"".equalsIgnoreCase(shopRoom.getRoomNumber())) {
+			shopRoomDB.setRoomNumber(shopRoom.getRoomNumber());
+		}
+		
+		if(Objects.nonNull(shopRoom.getRoomLocation()) && 
+				!"".equalsIgnoreCase(shopRoom.getRoomLocation())) {
+			shopRoomDB.setRoomLocation(shopRoom.getRoomLocation());
+		}		
+		
+		if(Objects.nonNull(shopRoom.getFloor()) && 
+				!"".equalsIgnoreCase(shopRoom.getFloor())) {
+			shopRoomDB.setFloor(shopRoom.getFloor());
+		}
+		
+		if(Objects.nonNull(shopRoom.getRoomLength()) && 
+				!"".equalsIgnoreCase(shopRoom.getRoomLength())) {
+			shopRoomDB.setRoomLength(shopRoom.getRoomLength());
+		}
+		
+		if(Objects.nonNull(shopRoom.getRoomWidth()) && 
+				!"".equalsIgnoreCase(shopRoom.getRoomWidth())) {
+			shopRoomDB.setRoomWidth(shopRoom.getRoomWidth());
+		}
+		
+		if(Objects.nonNull(shopRoom.getRoomPrice()) && 
+				!"".equalsIgnoreCase(shopRoom.getRoomPrice())) {
+			shopRoomDB.setRoomPrice(shopRoom.getRoomPrice());
+		}
+		
+		if(Objects.nonNull(shopRoom.getRentParttern()) && 
+				!"".equalsIgnoreCase(shopRoom.getRentParttern())) {
+			shopRoomDB.setRentParttern(shopRoom.getRentParttern());
+		}
+		
+		
+		shopRoomRepository.save(shopRoomDB);
+		throw new SuccessMessageException("Shop room has been updated successfully.");
+		
+		
+	}
+	
 }

@@ -35,39 +35,21 @@ public class UserServiceImplementation implements UserService{
 	@Override
 	public void saveUser(@Valid User user) throws BlankFieldException, SuccessMessageException, AlreadyExistsException {
 		
-		List<User> userDBTelephone = userRepository.findByUserTelephone(user.getUserTelephone());
 		List<User> userDBEmail = userRepository.findByUserEmail(user.getUserEmail());
 		
-		if(!userDBTelephone.isEmpty()) {
-			throw new AlreadyExistsException("Telephone number already used");
-		}
-		
+			
 		if(!userDBEmail.isEmpty()) {
 			throw new AlreadyExistsException("Email address already used");
-		}
+		}		
 		
-		if(Objects.isNull(user.getFirstName()) || "".equalsIgnoreCase(user.getFirstName())){
-			throw new BlankFieldException("Please add first name.");
-			
-		}
-		
-		if(Objects.isNull(user.getLastName()) || "".equalsIgnoreCase(user.getLastName())){
-			throw new BlankFieldException("Please add Last name.");
-			
-		}
 		
 		if(Objects.isNull(user.getUserEmail()) || "".equalsIgnoreCase(user.getUserEmail())){
 			throw new BlankFieldException("Please add user email.");
 			
 		}
 		
-		if(Objects.isNull(user.getUserTelephone()) || "".equalsIgnoreCase(user.getUserTelephone())){
-			throw new BlankFieldException("Please add telephone number");
-			
-		}
-		
-		if(Objects.isNull(user.getUserCategory()) || "".equalsIgnoreCase(user.getUserCategory())){
-			throw new BlankFieldException("Please add user categoey.");
+		if(Objects.isNull(user.getUserRole()) || "".equalsIgnoreCase(user.getUserRole())){
+			throw new BlankFieldException("Please add user role.");
 			
 		}
 		
@@ -165,32 +147,16 @@ public class UserServiceImplementation implements UserService{
 		User userDB = userRepository.findById(Id).get();
 		
 		
-		if(Objects.nonNull(user.getFirstName()) && !"".equalsIgnoreCase(user.getFirstName())) {
-			userDB.setFirstName(user.getFirstName());
-		}
-		
-		if(Objects.nonNull(user.getLastName()) && !"".equalsIgnoreCase(user.getLastName())) {
-			userDB.setLastName(user.getLastName());
-		}
-		
-		if(Objects.nonNull(user.getOtherNames()) && !"".equalsIgnoreCase(user.getOtherNames())) {
-			userDB.setOtherNames(user.getOtherNames());
-		}
-		
 		if(Objects.nonNull(user.getUserEmail()) && !"".equalsIgnoreCase(user.getUserEmail())) {
 			userDB.setUserEmail(user.getUserEmail());
-		}
-		
-		if(Objects.nonNull(user.getUserTelephone()) && !"".equalsIgnoreCase(user.getUserTelephone())) {
-			userDB.setUserTelephone(user.getUserTelephone());
 		}
 		
 		if(Objects.nonNull(user.getUserPassword()) && !"".equalsIgnoreCase(user.getUserPassword())) {
 			userDB.setUserPassword(user.getUserPassword());
 		}
 		
-		if(Objects.nonNull(user.getUserCategory()) && !"".equalsIgnoreCase(user.getUserCategory())) {
-			userDB.setUserCategory(user.getUserCategory());
+		if(Objects.nonNull(user.getUserRole()) && !"".equalsIgnoreCase(user.getUserRole())) {
+			userDB.setUserRole(user.getUserRole());
 		}
 		
 		

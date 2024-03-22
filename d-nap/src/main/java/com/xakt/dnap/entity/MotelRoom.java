@@ -13,8 +13,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,39 +24,40 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@Table(name="user")
-public class User {
-	
-	
+public class MotelRoom {	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long userId;
+	private Long roomId;
 	
-	@NotBlank(message="Please add user category.")
-	@Length(max=20, min=3)
-	@Column(name="user_role", nullable=false)
-	private String userRole;
+	@Column(nullable=false)
+	@Length(max=30)
+	private String roomCategory;
 	
-	@Email
-	@NotBlank(message="Please add email")
-	@Length(max=50, min=10)
-	@Column(name="user_email", unique=true, nullable=false)
-	private String userEmail;	
+	@Column(nullable=false)
+	@Length(max=10)
+	private String roomNumber;
 	
-	@NotBlank(message="Please add a password")
-	@Length(max=25, min=6)
-	@Column(name="user_password", nullable=false)
-	private String userPassword;	
+	@Column(nullable=false)
+	@Length(max=15)
+	private String floor;
 	
+	@Column(nullable=false)
+	@Length(max=25)
+	private String roomPrice;
+	
+	@Column(nullable=false)
+	@Length(max=15)
+	private String PaymentPartten;	
+	
+	@Column(nullable=false, updatable=false)
 	@CreatedDate
 	@CreationTimestamp
-	@Column(name="date_created", updatable=false)
-	private Timestamp createdDate;
+	private Timestamp dateCreated;
 	
-	
+	@Column(nullable=false)
 	@LastModifiedDate
 	@UpdateTimestamp
-	@Column(name="last_updated")
 	private Timestamp lastUpdated;	
-
+	
 }

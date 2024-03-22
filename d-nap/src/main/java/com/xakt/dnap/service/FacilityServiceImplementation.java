@@ -35,13 +35,25 @@ public class FacilityServiceImplementation implements FacilityService {
 	@Override
 	public void saveFacility(@Valid Facility facility) 
 			throws BlankFieldException, SuccessMessageException {
-		if(Objects.isNull(facility.getFacilityName()) || "".equalsIgnoreCase(facility.getFacilityName())) {
+		if(Objects.isNull(facility.getFacilityName()) || 
+				"".equalsIgnoreCase(facility.getFacilityName())) {
 			throw new BlankFieldException("Please add facility name");
 		}
 		
-		if(Objects.isNull(facility.getFacilityCategory()) || "".equalsIgnoreCase(facility.getFacilityCategory())) {
+		if(Objects.isNull(facility.getFacilityCategory()) || 
+				"".equalsIgnoreCase(facility.getFacilityCategory())) {
 			throw new BlankFieldException("Please add facility category");
 		}		
+		
+		if(Objects.isNull(facility.getFacilityLocation().getCountry()) || 
+				"".equalsIgnoreCase(facility.getFacilityLocation().getCountry())) {
+			throw new BlankFieldException("Please add country.");
+		}
+		
+		if(Objects.isNull(facility.getFacilityLocation().getZone()) || 
+				"".equalsIgnoreCase(facility.getFacilityLocation().getZone())) {
+			throw new BlankFieldException("Please add village or zone.");
+		}
 		
 		facilityRepository.save(facility);
 		throw new SuccessMessageException("Facility has been saved successfully.");
@@ -118,6 +130,57 @@ public class FacilityServiceImplementation implements FacilityService {
 				!"".equalsIgnoreCase(facility.getFacilityName())) {
 			facilityDB.setFacilityName(facility.getFacilityName());
 		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getCountry()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getCountry())) {
+			facilityDB.getFacilityLocation().setCountry(facility.getFacilityLocation().getCountry());
+		}		
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getState()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getState())) {
+			facilityDB.getFacilityLocation().setState(facility.getFacilityLocation().getState());
+		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getCity()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getCity())) {
+			facilityDB.getFacilityLocation().setCity(facility.getFacilityLocation().getCity());
+		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getCounty()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getCounty())) {
+			facilityDB.getFacilityLocation().setCounty(facility.getFacilityLocation().getCounty());
+		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getDivision()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getDivision())) {
+			facilityDB.getFacilityLocation().setDivision(facility.getFacilityLocation().getDivision());
+		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getCity()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getCity())) {
+			facilityDB.getFacilityLocation().setCity(facility.getFacilityLocation().getCity());
+		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getParish()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getParish())) {
+			facilityDB.getFacilityLocation().setParish(facility.getFacilityLocation().getParish());
+		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getZone()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getZone())) {
+			facilityDB.getFacilityLocation().setZone(facility.getFacilityLocation().getZone());
+		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getStreet()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getStreet())) {
+			facilityDB.getFacilityLocation().setStreet(facility.getFacilityLocation().getStreet());
+		}
+		
+		if(Objects.nonNull(facility.getFacilityLocation().getPlotNumber()) && 
+				!"".equalsIgnoreCase(facility.getFacilityLocation().getPlotNumber())) {
+			facilityDB.getFacilityLocation().setPlotNumber(facility.getFacilityLocation().getPlotNumber());
+		}
+		
 		
 		facilityRepository.save(facilityDB);
 		throw new SuccessMessageException("Facility updated successfully.");
