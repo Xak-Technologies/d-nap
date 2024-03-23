@@ -22,25 +22,43 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class MeetingSpace {
+public class RentalRoom {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long spaceId;
+	private Long roomId;
+	
+	@Column(length=10, nullable=false)
+	private String roomtNumber;
+	
+	@Column(length=15)
+	private String floor;
 	
 	@Column(nullable=false)
-	private int capacity;
+	private Integer roomPrice;
+	
+	@Column(nullable=false, length=25)
+	private String roomCategory;
 	
 	@Column(nullable=false)
-	private Long price;
+	private boolean fullyFanished;
 	
 	@Column(nullable=false)
-	private Boolean available;
+	private boolean kitchen;
 	
 	@Column(nullable=false)
+	private boolean showerRoom;
+	
+	@Column(nullable=false)
+	private boolean toilet; 
+	
+	@Column(nullable=false)
+	private boolean storeRoom;
+	
+	@Column(nullable=false, updatable=false)
 	@CreatedDate
 	@CreationTimestamp
 	private Timestamp dateCreated;
@@ -51,11 +69,7 @@ public class MeetingSpace {
 	private Timestamp lastUpdated;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="hotelId", nullable=false)
-	private Hotel hotel;	
-	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="MotelId", nullable=false, insertable=false, updatable=false)
-	private Motel Motel; 
+	@JoinColumn(name="rental_building_id", referencedColumnName="rentalBuildingId" )
+	private RentalBuilding rentalBuilding;
 
 }

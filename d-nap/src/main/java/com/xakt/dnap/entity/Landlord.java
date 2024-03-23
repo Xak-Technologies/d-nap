@@ -2,7 +2,6 @@ package com.xakt.dnap.entity;
 
 import java.sql.Timestamp;
 import java.util.List;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -61,12 +60,12 @@ public class Landlord {
 	@LastModifiedDate
 	private Timestamp lastUpdated;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="user_id", referencedColumnName="userId", nullable=false)
 	private User user;	
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="landlord_id", referencedColumnName="landLordId", nullable=false)
-	private List<Facility> facility;
+	private List<Facility> facilities;
 
 }

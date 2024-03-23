@@ -31,6 +31,7 @@ public class EventsSpace {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long spaceId;
 	
 	@Column(nullable=false)
 	private int capacity;

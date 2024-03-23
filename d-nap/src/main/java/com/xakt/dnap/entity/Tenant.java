@@ -87,7 +87,11 @@ public class Tenant {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="room_id", referencedColumnName="apartmentId", insertable=false, updatable=false)
-	private Apartment apartment;	
+	private Apartment apartment;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="room_id", referencedColumnName="roomId", insertable=false, updatable=false)
+	private RentalRoom rentalRoom;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="room_id", referencedColumnName="homeId", insertable=false, updatable=false)

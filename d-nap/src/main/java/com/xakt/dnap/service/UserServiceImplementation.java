@@ -8,13 +8,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xakt.dnap.entity.Landlord;
 import com.xakt.dnap.entity.User;
 import com.xakt.dnap.error.AlreadyExistsException;
 import com.xakt.dnap.error.BlankFieldException;
 import com.xakt.dnap.error.NotFoundException;
 import com.xakt.dnap.error.SuccessMessageException;
+import com.xakt.dnap.repository.LandlordRepository;
 import com.xakt.dnap.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Service
@@ -22,6 +25,9 @@ public class UserServiceImplementation implements UserService{
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	LandlordRepository landlordRepository;
 	
 	
 /*
@@ -116,15 +122,16 @@ public class UserServiceImplementation implements UserService{
   */
 	@SuppressWarnings("null")
 	@Override
-	public void deleteUser(Long id) throws NotFoundException, SuccessMessageException {
+	@Transactional
+	public void deleteUser(Long id) throws NotFoundException, SuccessMessageException {	
 		
-		Optional <User> user = userRepository.findById(id);
-		if(!user.isPresent()) {
-			throw new NotFoundException("User not found.");
-		}		
+		Optional<User> userDB = userRepository.findByUserId(id);
+		if(userDB.isEmpty()) {
+			throw new NotFoundException("User not found");
+		}
 		
-		userRepository.deleteById(id);
-		throw new SuccessMessageException("User has been deleted successfully.");	
+		userRepository.deleteByUserId(id);
+		throw new SuccessMessageException("User deleted successfully.");
 	
 	}
 	

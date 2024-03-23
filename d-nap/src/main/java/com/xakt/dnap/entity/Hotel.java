@@ -90,6 +90,5 @@ public class Hotel {
 	@JoinColumn(name="facility_id", referencedColumnName="facilityId", nullable=false)
 	private Facility facility;
 	
-	
 
 }
