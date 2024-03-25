@@ -86,7 +86,7 @@ public class ShopRoomServiceImplementation implements ShopRoomService {
 	@SuppressWarnings("null")
 	@Override
 	public void deleteShopRoom(Long roomId) throws NotFoundException, SuccessMessageException {
-		@SuppressWarnings("null")
+		
 		Optional<ShopRoom> shopRoomDB = shopRoomRepository.findById(roomId);
 		if(!shopRoomDB.isPresent()) {
 			throw new NotFoundException("Room not found");
@@ -122,9 +122,8 @@ public class ShopRoomServiceImplementation implements ShopRoomService {
 		Optional<ShopRoom> shopRoomDBExists = shopRoomRepository.findById(roomId);
 		if(!shopRoomDBExists.isPresent()) {
 			throw new NotFoundException("Shop room not found.");
-		}
+		}		
 		
-		@SuppressWarnings("null")
 		ShopRoom shopRoomDB = shopRoomRepository.findById(roomId).get();		
 		
 		if(Objects.nonNull(shopRoom.getRoomNumber()) && 

@@ -102,13 +102,13 @@ public class HostelRoomServiceImplementation implements HostelRoomService{
 	@Override
 	public void updateHostelRoom(Long roomId, HostelRoom hostelRoom) 
 			throws NotFoundException, SuccessMessageException {
-		@SuppressWarnings("null")
+		
 		Optional<HostelRoom> hostelRoomDB = hostelRoomRepository.findById(roomId);
 		if(!hostelRoomDB.isPresent()) {
 			throw new NotFoundException("Room not found");
 		}		
 		
-		@SuppressWarnings("null")
+		
 		HostelRoom hostelRoomDBUpdate = hostelRoomRepository.findById(roomId).get();
 		
 		if(Objects.nonNull(hostelRoom.getRoomCategory()) && 

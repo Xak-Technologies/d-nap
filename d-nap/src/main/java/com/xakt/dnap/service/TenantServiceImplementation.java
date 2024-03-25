@@ -1,7 +1,8 @@
 package com.xakt.dnap.service;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.Optional;  
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class TenantServiceImplementation implements TenantService {
 
 		//	CHECKING IF USER ACCOUNT EXISTS IN THE DATABASE	
 		Optional<User> userDB = userRepository.findByUserId(tenant.getUser().getUserId());
+		
 		if(userDB.isEmpty()) {
 			throw new NotFoundException("User account not found.");
 		}
@@ -161,6 +163,15 @@ public class TenantServiceImplementation implements TenantService {
 		
 		tenantRepository.save(tenant);
 		throw new SuccessMessageException("Tenant saved successfully.");
+	}
+
+	@Override
+	public List<Tenant> fetchTenants() throws NotFoundException {
+		List<Tenant> tenants = tenantRepository.findAll();
+		if(tenants.isEmpty()) {
+			throw new NotFoundException("No tenant found.");
+		}
+		return tenants;
 	}
 
 }

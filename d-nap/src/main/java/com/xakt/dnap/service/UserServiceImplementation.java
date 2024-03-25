@@ -120,7 +120,7 @@ public class UserServiceImplementation implements UserService{
   * If the user exists, that particular user is deleted and a user deleted successFully message 
   * to the client side.
   */
-	@SuppressWarnings("null")
+	
 	@Override
 	@Transactional
 	public void deleteUser(Long id) throws NotFoundException, SuccessMessageException {	

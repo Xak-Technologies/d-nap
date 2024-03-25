@@ -1,5 +1,7 @@
 package com.xakt.dnap.service;
 
+import java.util.List;
+
 import com.xakt.dnap.entity.Tenant;
 import com.xakt.dnap.error.AlreadyExistsException;
 import com.xakt.dnap.error.BlankFieldException;
@@ -10,5 +12,7 @@ public interface TenantService {
 
 	void addNewTenant(Tenant tenant) throws NotFoundException, AlreadyExistsException, 
 	SuccessMessageException, BlankFieldException;
+
+	List<Tenant> fetchTenants() throws NotFoundException;
 
 }
