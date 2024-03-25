@@ -88,5 +88,9 @@ public class Home {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="facility_id", referencedColumnName="facilityId")
 	private Facility facility;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="tenant_id", referencedColumnName="tenantId", insertable=false, updatable=false)
+	private Tenant tenant;
 
 }

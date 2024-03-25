@@ -2,6 +2,7 @@ package com.xakt.dnap.service;
 
 import java.util.List;
 import com.xakt.dnap.entity.Facility;
+import com.xakt.dnap.error.AlreadyExistsException;
 import com.xakt.dnap.error.BlankFieldException;
 import com.xakt.dnap.error.NotFoundException;
 import com.xakt.dnap.error.SuccessMessageException;
@@ -11,7 +12,7 @@ import jakarta.validation.Valid;
 public interface FacilityService {
 
 	public void saveFacility(@Valid Facility facility) 
-			throws BlankFieldException, SuccessMessageException;
+			throws BlankFieldException, SuccessMessageException, NotFoundException, AlreadyExistsException;
 	
 
 	public List<Facility> fetchFacilities() throws NotFoundException;
@@ -21,6 +22,6 @@ public interface FacilityService {
 	
 
 	public void editFacility(Long facilityId, Facility facility) 
-			throws NotFoundException, SuccessMessageException;
+			throws NotFoundException, SuccessMessageException, AlreadyExistsException;
 
 }

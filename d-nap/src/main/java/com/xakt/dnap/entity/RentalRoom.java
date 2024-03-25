@@ -15,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -71,5 +72,9 @@ public class RentalRoom {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="rental_building_id", referencedColumnName="rentalBuildingId" )
 	private RentalBuilding rentalBuilding;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="tenant_id", referencedColumnName="tenantId", insertable=false, updatable=false)
+	private Tenant tenant;
 
 }

@@ -1,6 +1,7 @@
 package com.xakt.dnap.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -62,5 +64,9 @@ public class LodgeRoom {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="lodge_id", referencedColumnName="lodgeId")
 	private Lodge lodge;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="room_id", referencedColumnName="roomId")
+	private List<Tenant> tenants;
 
 }

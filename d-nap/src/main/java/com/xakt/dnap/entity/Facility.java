@@ -8,13 +8,16 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,4 +60,8 @@ public class Facility {
 	
 	@ManyToMany(mappedBy = "facilities")
     private List<Tenant> tenants;
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="landlord_id", referencedColumnName="landlordId", nullable=false)
+	private Landlord landlord;
 }

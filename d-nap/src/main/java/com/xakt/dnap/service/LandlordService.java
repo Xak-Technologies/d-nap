@@ -19,7 +19,8 @@ public interface LandlordService {
 	Landlord fetchLandlordById(Long landlordId) throws NotFoundException;
 
 	void deleteLandlordById(Long landlordId) throws NotFoundException, SuccessMessageException;
-	
-	void deleteLandlordByUserId(Long id);
+
+	void updateLandlord(Long landlordId, Landlord landlord) 
+			throws NotFoundException, SuccessMessageException, AlreadyExistsException ;
 
 }

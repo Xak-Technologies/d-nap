@@ -128,6 +128,12 @@ public class UserServiceImplementation implements UserService{
 		Optional<User> userDB = userRepository.findByUserId(id);
 		if(userDB.isEmpty()) {
 			throw new NotFoundException("User not found");
+		}		
+		
+		
+		Optional<Landlord> landlord = landlordRepository.findByUserUserId(id);
+		if(landlord.isPresent()) {
+			landlordRepository.deleteByUserUserId(userDB.get().getUserId());
 		}
 		
 		userRepository.deleteByUserId(id);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xakt.dnap.entity.Facility;
+import com.xakt.dnap.error.AlreadyExistsException;
 import com.xakt.dnap.error.BlankFieldException;
 import com.xakt.dnap.error.NotFoundException;
 import com.xakt.dnap.error.SuccessMessageException;
@@ -32,7 +33,7 @@ public class FacilityController {
 //	ADDING A NEW FACILITY
 	@PostMapping("/api/saveFacility")
 	public void saveFacility(@RequestBody Facility facility) 
-			throws BlankFieldException, SuccessMessageException {
+			throws BlankFieldException, SuccessMessageException, NotFoundException, AlreadyExistsException {
 		LOGGER.info("Inside save facility of FacilityControler.");
 		facilityService.saveFacility(facility);		
 	}
@@ -59,7 +60,7 @@ public class FacilityController {
 	@PutMapping("/api/editFacility/{facility_id}")
 	public void editFacility(@PathVariable("facility_id") Long facilityId,
 			@RequestBody Facility facility) 
-					throws NotFoundException, SuccessMessageException {
+					throws NotFoundException, SuccessMessageException, AlreadyExistsException {
 		LOGGER.info("Inside editFacility of FacilityController.");
 		facilityService.editFacility(facilityId, facility);
 	}

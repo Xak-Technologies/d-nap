@@ -31,6 +31,7 @@ public class LandlordServiceImplementation implements LandlordService{
 /*
  * ADDING A NEW LANDLORD TO THE DATABASE
  */
+	@SuppressWarnings("null")
 	@Override
 	public void saveLandlord(Landlord landlord) 
 			throws NotFoundException, AlreadyExistsException, 
@@ -43,6 +44,10 @@ public class LandlordServiceImplementation implements LandlordService{
 
 		if(user.isEmpty()) {
 			throw new NotFoundException("User account does not exist.");
+		}
+		
+		if(!user.get().getUserRole().equals("Landlord")) {
+			throw new NotFoundException("This account is not linked to any landlord.");
 		}
 		
 		
@@ -200,10 +205,148 @@ public class LandlordServiceImplementation implements LandlordService{
 	}
 
 
+	
+/*
+ * UPDATING LANDLORD INFO
+ */
+	@SuppressWarnings("null")
 	@Override
-	@Transactional
-	public void deleteLandlordByUserId(Long id) {
-		landlordRepository.deleteByUserUserId(id);
+	public void updateLandlord(Long landlordId, Landlord landlord) 
+			throws NotFoundException, SuccessMessageException, AlreadyExistsException {
+		
+	/*
+	 * CHECK IF THE LANDLORD EXISTS
+	 */
+		Optional<Landlord> landlordDB = landlordRepository.findByLandlordId(landlordId);		
+		if(landlordDB.isEmpty()) {
+			throw new NotFoundException("Landlord not found");
+		}
+			
+			
+	/*
+	 * CHECHING FOR DUPLICATE EMAILS		
+	 */
+		Optional<Landlord> landlordDBEmail = 
+				landlordRepository.findOthersWithSameEmail(landlordId, landlord.getContact().getEmail());
+		if(landlordDBEmail.isPresent()) {
+			throw new AlreadyExistsException("Email already used.");
+		}
+		
+		System.out.println(landlordDB);
+			
+	/*
+	 * CHECHING FOR DUPLICATE TELEPHONE1
+	 */
+		Optional<Landlord> landlordDBTelephone1 = 
+				landlordRepository.findOthersWithSameTelephone1(landlordId, landlord.getContact().getTelephone1());
+		if(!landlordDBTelephone1.isEmpty()) {
+			throw new AlreadyExistsException("Telephone1 already used.");
+		}
+			
+	/*
+	 * CHECKING FOR DUPLICATE TELEPHONE2
+	 */
+		Optional<Landlord> landlordDBTelephone2 = 
+				landlordRepository.findOthersWithSameTelephone2(landlordId, landlord.getContact().getTelephone2());
+		if(!landlordDBTelephone2.isEmpty()) {
+			throw new AlreadyExistsException("Telephone2 already used.");
+		}	
+		
+		
+	/*
+	 * CHECKING FOR DUPLICATE NATIONAL ID
+	 */
+		Optional<Landlord> landlordDBNationalId = 
+				landlordRepository.findOthersWithSameNationalId(landlordId, landlord.getNationalId());
+		if(landlordDBNationalId.isPresent()) {
+			throw new AlreadyExistsException("National Id already used.");
+		}	
+		
+		
+			
+		if(Objects.nonNull(landlord.getFirstName()) || 
+					!"".equalsIgnoreCase(landlord.getFirstName())) {
+			landlordDB.get().setFirstName(landlord.getFirstName());
+		}
+			
+		if(Objects.nonNull(landlord.getLastName()) || 
+					!"".equalsIgnoreCase(landlord.getLastName())) {
+			landlordDB.get().setLastName(landlord.getLastName());
+		}
+			
+		if(Objects.nonNull(landlord.getOtherNames()) || 
+					!"".equalsIgnoreCase(landlord.getOtherNames())) {
+			landlordDB.get().setOtherNames(landlord.getOtherNames());
+		}
+			
+		if(Objects.nonNull(landlord.getNationalId()) || 
+					!"".equalsIgnoreCase(landlord.getNationalId())) {
+			landlordDB.get().setNationalId(landlord.getNationalId());
+		}
+			
+		if(Objects.nonNull(landlord.getContact().getEmail()) || 
+					!"".equalsIgnoreCase(landlord.getContact().getEmail())) {
+			landlordDB.get().getContact().setEmail(landlord.getContact().getEmail());
+		}
+			
+		if(Objects.nonNull(landlord.getContact().getTelephone1()) || 
+					!"".equalsIgnoreCase(landlord.getContact().getTelephone1())) {
+			landlordDB.get().getContact().setTelephone1(landlord.getContact().getTelephone1());
+		}
+			
+		if(Objects.nonNull(landlord.getContact().getTelephone2()) || 
+					!"".equalsIgnoreCase(landlord.getContact().getTelephone2())) {
+			landlordDB.get().getContact().setTelephone2(landlord.getContact().getTelephone2());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getCountry()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getCountry())) {
+			landlordDB.get().getAddress().setCountry(landlord.getAddress().getCountry());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getState()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getState())) {
+			landlordDB.get().getAddress().setState(landlord.getAddress().getState());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getCity()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getCity())) {
+			landlordDB.get().getAddress().setCity(landlord.getAddress().getCity());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getCounty()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getCounty())) {
+			landlordDB.get().getAddress().setCounty(landlord.getAddress().getCounty());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getDivision()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getDivision())) {
+			landlordDB.get().getAddress().setDivision(landlord.getAddress().getDivision());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getParish()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getParish())) {
+			landlordDB.get().getAddress().setParish(landlord.getAddress().getParish());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getZone()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getZone())) {
+			landlordDB.get().getAddress().setZone(landlord.getAddress().getZone());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getStreet()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getStreet())) {
+			landlordDB.get().getAddress().setStreet(landlord.getAddress().getStreet());
+		}
+			
+		if(Objects.nonNull(landlord.getAddress().getPlotNumber()) || 
+				!"".equalsIgnoreCase(landlord.getAddress().getPlotNumber())) {
+			landlordDB.get().getAddress().setPlotNumber(landlord.getAddress().getPlotNumber());
+		}
+			
+		landlordRepository.save(landlordDB.get());
+			
+		throw new SuccessMessageException("Landlord has been updated successfully.");
 		
 	}
 
