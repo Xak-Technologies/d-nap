@@ -73,6 +73,7 @@ public class HostelRoomServiceImplementation implements HostelRoomService{
 
 	@Override
 	public Optional<HostelRoom> findHostelRoomById(Long roomId) throws NotFoundException {
+		@SuppressWarnings("null")
 		Optional<HostelRoom> hostelRoomDB = hostelRoomRepository.findById(roomId);
 		if(!hostelRoomDB.isPresent()) {
 			throw new NotFoundException("Room not found.");
@@ -82,6 +83,7 @@ public class HostelRoomServiceImplementation implements HostelRoomService{
 
 
 
+	@SuppressWarnings("null")
 	@Override
 	public void deleteHostelRoomById(Long roomId) throws NotFoundException, SuccessMessageException {
 		Optional<HostelRoom> hostelRoomDB = hostelRoomRepository.findById(roomId);
@@ -96,14 +98,17 @@ public class HostelRoomServiceImplementation implements HostelRoomService{
 
 
 
+	@SuppressWarnings("null")
 	@Override
 	public void updateHostelRoom(Long roomId, HostelRoom hostelRoom) 
 			throws NotFoundException, SuccessMessageException {
+		@SuppressWarnings("null")
 		Optional<HostelRoom> hostelRoomDB = hostelRoomRepository.findById(roomId);
 		if(!hostelRoomDB.isPresent()) {
 			throw new NotFoundException("Room not found");
 		}		
 		
+		@SuppressWarnings("null")
 		HostelRoom hostelRoomDBUpdate = hostelRoomRepository.findById(roomId).get();
 		
 		if(Objects.nonNull(hostelRoom.getRoomCategory()) && 

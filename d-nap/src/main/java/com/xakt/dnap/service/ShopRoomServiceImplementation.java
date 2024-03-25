@@ -83,8 +83,10 @@ public class ShopRoomServiceImplementation implements ShopRoomService {
 /*
  * DELETING A SHOP ROOM BY ID
  */
+	@SuppressWarnings("null")
 	@Override
 	public void deleteShopRoom(Long roomId) throws NotFoundException, SuccessMessageException {
+		@SuppressWarnings("null")
 		Optional<ShopRoom> shopRoomDB = shopRoomRepository.findById(roomId);
 		if(!shopRoomDB.isPresent()) {
 			throw new NotFoundException("Room not found");
@@ -101,6 +103,7 @@ public class ShopRoomServiceImplementation implements ShopRoomService {
  */
 	@Override
 	public Optional<ShopRoom> fetchShopRoomById(Long roomId) throws NotFoundException {
+		@SuppressWarnings("null")
 		Optional<ShopRoom> shopRoomDB = shopRoomRepository.findById(roomId);
 		if(!shopRoomDB.isPresent()) {
 			throw new NotFoundException("Shop room not found.");
@@ -112,6 +115,7 @@ public class ShopRoomServiceImplementation implements ShopRoomService {
 /*
  * UPDATE SHOP ROOM
  */
+	@SuppressWarnings("null")
 	@Override
 	public void updateShopRoom(Long roomId, ShopRoom shopRoom) 
 			throws NotFoundException, SuccessMessageException{
@@ -120,6 +124,7 @@ public class ShopRoomServiceImplementation implements ShopRoomService {
 			throw new NotFoundException("Shop room not found.");
 		}
 		
+		@SuppressWarnings("null")
 		ShopRoom shopRoomDB = shopRoomRepository.findById(roomId).get();		
 		
 		if(Objects.nonNull(shopRoom.getRoomNumber()) && 
