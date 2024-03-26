@@ -1,7 +1,6 @@
 package com.xakt.dnap.entity;
 
 import java.sql.Timestamp;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -68,5 +67,8 @@ public class Lodge {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="facility_id", referencedColumnName="facilityId")
 	private Facility facility;
+	
+	
+	
 
 }

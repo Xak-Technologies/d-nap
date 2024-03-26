@@ -1,6 +1,7 @@
 package com.xakt.dnap.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,11 +9,14 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -82,6 +86,9 @@ public class HostelRoom {
 	@Column(name="last_updated", nullable=false)
 	private Timestamp lastUpdated;
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="room_id", referencedColumnName="roomId", nullable=true)
+	private List<Tenant> tenants;	
 	
 
 }

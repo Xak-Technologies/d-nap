@@ -40,8 +40,10 @@ public class ShoppingMall {
 	private boolean cabelInternet;
 	
 	@Column(nullable=false)
-	private boolean standByGenerator;
+	private boolean standByGenerator;	
 	
+	@Column(nullable=false)
+	private boolean elevator;	
 	
 	@Column(nullable=false, updatable=false)
 	@CreatedDate

@@ -1,8 +1,6 @@
 package com.xakt.dnap.entity;
 
 import java.sql.Timestamp;
-import java.util.List;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,7 +13,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +28,7 @@ public class Motel {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long hotelId;
+	private Long motelId;
 	
 	@Column(nullable=false)
 	private boolean airportPickup;
@@ -83,27 +80,12 @@ public class Motel {
 	@Column(nullable=false)
 	@LastModifiedDate
 	@UpdateTimestamp
-	private Timestamp lastUpdated;
-	
-		
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="hotelID", nullable=false)
-	private List<EventsSpace> eventsSpaces; 	
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="hotelID", nullable=false)
-	private List<MeetingSpace> meetingSpaces;
-		
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="hotelID", nullable=false)
-	private List<ConferenceSpace> conferenceSpaces;
-	
+	private Timestamp lastUpdated;		
+
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="facility_id", referencedColumnName="facilityId", nullable=false)
 	private Facility facility;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="hotelId", nullable=false)
-	private List<MotelRoom> motelRooms;
+	
 
 }

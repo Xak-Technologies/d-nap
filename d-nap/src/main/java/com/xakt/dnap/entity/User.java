@@ -26,7 +26,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@Table(name="user")
 public class User {
 	
 	
@@ -60,5 +59,5 @@ public class User {
 	@UpdateTimestamp
 	@Column(name="last_updated")
 	private Timestamp lastUpdated;	
-
+	
 }

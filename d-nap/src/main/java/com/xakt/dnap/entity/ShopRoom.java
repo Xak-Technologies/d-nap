@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -69,6 +70,9 @@ public class ShopRoom {
 	@JoinColumn(name="arcade_id", referencedColumnName="mallId", nullable=false, insertable=false, updatable=false)
 	private ShoppingMall shoppingMall;
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="tenant_id", referencedColumnName="tenantId", insertable=false, updatable=false)
+	private Tenant tenant;
 	
 
 }

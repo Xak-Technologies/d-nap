@@ -19,6 +19,7 @@ import com.xakt.dnap.error.BlankFieldException;
 import com.xakt.dnap.error.NotFoundException;
 import com.xakt.dnap.error.SuccessMessageException;
 import com.xakt.dnap.repository.UserRepository;
+import com.xakt.dnap.service.LandlordService;
 import com.xakt.dnap.service.UserService;
 
 
@@ -29,6 +30,9 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	LandlordService landlordService;
 	
 	
 	@PostMapping("/api/saveUser")

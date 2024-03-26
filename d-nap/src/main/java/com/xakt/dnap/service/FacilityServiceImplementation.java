@@ -5,13 +5,17 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.xakt.dnap.entity.Facility;
+import com.xakt.dnap.entity.Landlord;
+import com.xakt.dnap.error.AlreadyExistsException;
 import com.xakt.dnap.error.BlankFieldException;
 import com.xakt.dnap.error.NotFoundException;
 import com.xakt.dnap.error.SuccessMessageException;
 import com.xakt.dnap.repository.FacilityRepository;
+import com.xakt.dnap.repository.LandlordRepository;
 
 import jakarta.validation.Valid;
 
@@ -21,6 +25,9 @@ public class FacilityServiceImplementation implements FacilityService {
 
 	@Autowired
 	FacilityRepository facilityRepository;
+	
+	@Autowired
+	LandlordRepository landlordRepository;
 	
 	
 /*
@@ -34,7 +41,36 @@ public class FacilityServiceImplementation implements FacilityService {
  */	
 	@Override
 	public void saveFacility(@Valid Facility facility) 
-			throws BlankFieldException, SuccessMessageException {
+			throws BlankFieldException, SuccessMessageException, NotFoundException, AlreadyExistsException {
+	
+		// CHECKING FOR DUPLICATE FACILITIES BEFORE SAVING A NE FACILITY 
+		Integer facilityDB = 
+				facilityRepository.findDuplicateFacility(
+						facility.getFacilityName(),
+						facility.getLandlord().getLandlordId(),
+						facility.getFacilityLocation().getCountry(),
+						facility.getFacilityLocation().getCity(),
+						facility.getFacilityLocation().getZone(),
+						facility.getFacilityLocation().getStreet()
+						);
+		
+		if(facilityDB > 0) {
+			throw new AlreadyExistsException("Facilite with similar details already added.");
+		}		
+		
+		// CHECKING IF THE LANDLORD WITH THE PASSED LANDLORD ID EXISTS 
+		Optional<Landlord> landlordDB = landlordRepository.findByLandlordId(facility.getLandlord().getLandlordId());
+		if(landlordDB.isEmpty()) {
+			throw new NotFoundException("The facility landlord was not found.");
+		}
+		facility.setLandlord(landlordDB.get());		
+
+
+		// CHECKING FOR NULL REQUIRED FIELDS 
+		if(Objects.isNull(facility.getLandlord().getLandlordId())) {
+			throw new BlankFieldException("You can't add a facility with no landlord.");
+		}
+		
 		if(Objects.isNull(facility.getFacilityName()) || 
 				"".equalsIgnoreCase(facility.getFacilityName())) {
 			throw new BlankFieldException("Please add facility name");
@@ -53,8 +89,10 @@ public class FacilityServiceImplementation implements FacilityService {
 		if(Objects.isNull(facility.getFacilityLocation().getZone()) || 
 				"".equalsIgnoreCase(facility.getFacilityLocation().getZone())) {
 			throw new BlankFieldException("Please add village or zone.");
-		}
-		
+		}		
+	
+
+		// SAVING THE NEW FACILITY 		
 		facilityRepository.save(facility);
 		throw new SuccessMessageException("Facility has been saved successfully.");
 		
@@ -88,7 +126,7 @@ public class FacilityServiceImplementation implements FacilityService {
  * 	returns a Facility not found message to the client side. 
  */
 	@Override
-	public void deleteFacility(Long facilityId) 
+	public void deleteFacility(@SuppressWarnings("null") @NonNull Long facilityId) 
 			throws NotFoundException, SuccessMessageException {
 		Optional<Facility> facilityDB = facilityRepository.findById(facilityId);
 		
@@ -110,17 +148,60 @@ public class FacilityServiceImplementation implements FacilityService {
  * If the facility exists in the database, it updates the database, its info is updated and
  *  the method return a Facility updated successfully message to the client side.
  */
+	@SuppressWarnings("null")
 	@Override
 	public void editFacility(Long facilityId, Facility facility) 
-			throws NotFoundException, SuccessMessageException {
+			throws NotFoundException, SuccessMessageException, AlreadyExistsException {
 		
-		Optional<Facility> facilityDBFound = facilityRepository.findById(facilityId);
+		// CHECKING DUPLICATE FACILITIES FOR OTHER LANDLORDS
+		Integer facilityDBUpdate = 
+			facilityRepository.findDuplicateFacilityUpdate(
+				facility.getFacilityName(),
+				facility.getLandlord().getLandlordId(),
+				facility.getFacilityLocation().getCountry(),
+				facility.getFacilityLocation().getCity(),
+				facility.getFacilityLocation().getZone(),
+				facility.getFacilityLocation().getStreet()
+			);
+				
+		if(facilityDBUpdate > 0) {
+			throw new AlreadyExistsException("Facilite with similar details already added.");
+		}
+		
+		
+		//CHECKING DUPLICATE FACILITIES FOR THE SAME LANDLORD	
+		Integer facilityDBDuplicate = 
+				facilityRepository.findDuplicateFacilityEdit(
+					facilityId,
+					facility.getFacilityName(),
+					facility.getLandlord().getLandlordId(),
+					facility.getFacilityLocation().getCountry(),
+					facility.getFacilityLocation().getCity(),
+					facility.getFacilityLocation().getZone(),
+					facility.getFacilityLocation().getStreet()
+				);
+					
+			if(facilityDBDuplicate > 0) {
+				throw new AlreadyExistsException("Facilite with similar details already added.");
+			}
+	
+			
+		//CHECKING IF THE ATTACHED LANDLORD ID EXISTS		
+		Optional<Landlord> landlordDB = landlordRepository.findByLandlordId(facility.getLandlord().getLandlordId());
+		if(landlordDB.isEmpty()) {
+			throw new NotFoundException("Landlord with the passed Id is not available.");
+		}
+		facility.setLandlord(landlordDB.get());
+		
+		
+		//CHECKING IF THE FACILITY TO BE EDITED EXISTS
+		Optional<Facility> facilityDBFound = facilityRepository.findByFacilityId(facilityId);
 		if(facilityDBFound.isEmpty()) {
 			throw new NotFoundException("Facility not found");
 		}		
+		Facility facilityDB = facilityRepository.findByFacilityId(facilityId).get();
 		
-		Facility facilityDB = facilityRepository.findById(facilityId).get();
-		
+		//SETTING NEW FACILITY DETAILS		
 		if(Objects.nonNull(facility.getFacilityCategory()) &&
 				!"".equalsIgnoreCase(facility.getFacilityCategory())) {
 			facilityDB.setFacilityCategory(facility.getFacilityCategory());
@@ -182,6 +263,7 @@ public class FacilityServiceImplementation implements FacilityService {
 		}
 		
 		
+		//SAVING THE NEW FACILITY DETAILS		
 		facilityRepository.save(facilityDB);
 		throw new SuccessMessageException("Facility updated successfully.");
 	}

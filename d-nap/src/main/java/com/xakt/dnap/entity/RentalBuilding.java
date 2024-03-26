@@ -3,7 +3,6 @@ package com.xakt.dnap.entity;
 import java.sql.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -14,44 +13,52 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class HotelRoom {	
-
+public class RentalBuilding {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long roomId;
+	private Long rentalBuildingId;
 	
 	@Column(nullable=false)
-	@Length(max=10)
-	private String roomNumber;
+	private boolean parking;
 	
 	@Column(nullable=false)
-	@Length(max=15)
-	private String floor;
+	private boolean water;
 	
 	@Column(nullable=false)
-	@Length(max=30)
-	private String roomCategory;	
+	private boolean electricity;
 	
 	@Column(nullable=false)
-	@Length(max=25)
-	private String roomPrice;
+	private boolean wifi;
 	
 	@Column(nullable=false)
-	@Length(max=15)
-	private String PaymentPartten;
+	private boolean cabelInternet;
+	
+	@Column(nullable=false)
+	private boolean standByGenerator;
+	
+	@Column(nullable=false)
+	private boolean elevator;
+	
+	@Column(nullable=false)
+	private boolean surveillanceCameras;
+	
+	@Column(nullable=false)
+	private boolean securityGuard;
+	
+	@Column(nullable=false)
+	private boolean fenced;
 	
 	@Column(nullable=false, updatable=false)
 	@CreatedDate
@@ -63,17 +70,8 @@ public class HotelRoom {
 	@UpdateTimestamp
 	private Timestamp lastUpdated;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="hotelId", nullable=false)
-	private Hotel hotel;
-	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="hotel_id", referencedColumnName="motelId", nullable=false, insertable=false, updatable=false)
-	private Motel motel;
-	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="tenant_id", referencedColumnName="tenantId")
-	private Tenant tenant;
-	
-	
+	@JoinColumn(name="facility_id", referencedColumnName="facilityId", nullable=false)
+	private Facility facility;
+
 }

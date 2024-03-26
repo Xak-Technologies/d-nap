@@ -49,6 +49,9 @@ public class Tenant {
 	@Embedded
 	private Contact contact;
 	
+	@Embedded
+	private NextOfKin nextOfKin;
+	
 	@CreationTimestamp
 	@CreatedDate
 	@Column(updatable=false)
@@ -69,28 +72,5 @@ public class Tenant {
         inverseJoinColumns = @JoinColumn(name = "facility_id"))
     private List<Facility> facilities; 	
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="room_id", referencedColumnName="roomId")
-	private HotelRoom hotelRoom;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="room_id", referencedColumnName="roomId", insertable=false, updatable=false)
-	private HostelRoom hostelRoom;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="room_id", referencedColumnName="roomId", insertable=false, updatable=false)
-	private MotelRoom motelRoom;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="room_id", referencedColumnName="roomId", insertable=false, updatable=false)
-	private ShopRoom shopRoom;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="room_id", referencedColumnName="apartmentId", insertable=false, updatable=false)
-	private Apartment apartment;	
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="room_id", referencedColumnName="homeId", insertable=false, updatable=false)
-	private Home home;
 
 }
