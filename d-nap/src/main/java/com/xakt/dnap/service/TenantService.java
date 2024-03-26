@@ -15,4 +15,8 @@ public interface TenantService {
 
 	List<Tenant> fetchTenants() throws NotFoundException;
 
+	Tenant fetchTenantById(Long tenantId) throws NotFoundException ;
+
+	void deleteTenantById(Long tenantId) throws NotFoundException, SuccessMessageException ;
+
 }

@@ -16,6 +16,8 @@ import com.xakt.dnap.error.SuccessMessageException;
 import com.xakt.dnap.repository.TenantRepository;
 import com.xakt.dnap.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class TenantServiceImplementation implements TenantService {
 	
@@ -172,6 +174,34 @@ public class TenantServiceImplementation implements TenantService {
 			throw new NotFoundException("No tenant found.");
 		}
 		return tenants;
+	}
+	
+	
+
+	@Override
+	public Tenant fetchTenantById(Long tenantId) throws NotFoundException {
+		Optional<Tenant> tenantDB = tenantRepository.findByTenantId(tenantId);
+		
+		if(tenantDB.isEmpty()) {
+			throw new NotFoundException("Tenant not found.");
+		}
+		
+		return tenantDB.get();
+	}
+	
+	
+	
+	@Override
+	@Transactional
+	public void deleteTenantById(Long tenantId) throws NotFoundException, SuccessMessageException {
+		Optional<Tenant> tenantDB = tenantRepository.findByTenantId(tenantId);
+		if(tenantDB.isEmpty()) {
+			throw new NotFoundException("Tenant not found");
+		}
+		
+		tenantRepository.deleteByTenantId(tenantId);
+		throw new SuccessMessageException("Tenant deleted successfully.");
+		
 	}
 
 }

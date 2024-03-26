@@ -3,7 +3,9 @@ package com.xakt.dnap.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +35,18 @@ public class TenantController {
 		return tenantService.fetchTenants();
 	}
 	
+	
+	@GetMapping("/api/fetchTenantById/{tenant_id}")
+	private Tenant fetchTenantById(@PathVariable("tenant_id") Long tenantId) 
+			throws NotFoundException {
+		return tenantService.fetchTenantById(tenantId);
+	}
+	
+	@DeleteMapping("/api/deleteTenantById/{tenant_id}")	
+	private void deleteTenantById(@PathVariable("tenant_id") Long tenantId) 
+			throws NotFoundException, SuccessMessageException {
+		tenantService.deleteTenantById(tenantId);
+	}
 	
 
 }

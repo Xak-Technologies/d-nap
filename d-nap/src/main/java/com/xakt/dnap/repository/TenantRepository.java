@@ -1,5 +1,7 @@
 package com.xakt.dnap.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,5 +23,9 @@ public interface TenantRepository extends JpaRepository<Tenant, Long> {
 
 	@Query(value="SELECT COUNT(tenant_id) FROM tenant WHERE user_id=:userId", nativeQuery=true)
 	Integer findDuplicateByUser(Long userId);
+
+	Optional<Tenant> findByTenantId(Long tenantId);
+
+	void deleteByTenantId(Long tenantId);
 
 }
